@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>岡岡好・家族御朱印帳</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap');
+
+:root{
+  --paper:#FFF3E4;
+  --paper-2:#FFE3C7;
+  --ink:#3A2E39;
+  --indigo:#2F6F8F;
+  --indigo-deep:#1F4E66;
+  --stamp-red:#FF6B4A;
+  --gold:#FFC93C;
+  --line:#F0CFA0;
+  --white:#FFFDF9;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255,255,255,0.35), transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(0,0,0,0.04), transparent 60%),
+    var(--paper);
+  color:var(--ink);
+  font-family:'Noto Sans TC', sans-serif;
+  min-height:100vh;
+  padding-bottom:40px;
+}
+
+/* ---------- Header ---------- */
+.header{
+  background: linear-gradient(160deg, var(--indigo) 0%, var(--indigo-deep) 100%);
+  color:var(--white);
+  padding:20px 20px 40px;
+  position:relative;
+  text-align:center;
+  overflow:hidden;
+}
+.header::after{
+  content:'';
+  position:absolute; left:0; right:0; bottom:-1px; height:18px;
+  background-color:var(--paper);
+  -webkit-mask-image: radial-gradient(circle 9px at 10px 0px, transparent 9px, black 9.5px);
+  mask-image: radial-gradient(circle 9px at 10px 0px, transparent 9px, black 9.5px);
+  -webkit-mask-size: 20px 18px;
+  mask-size: 20px 18px;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  background: var(--indigo-deep);
+}
+.header::before{
+  content:'';
+  position:absolute; left:0; right:0; bottom:0px; height:18px;
+  background-color:transparent;
+  background-image: radial-gradient(circle 9px at 10px 9px, var(--paper) 9px, transparent 9.5px);
+  background-size: 20px 20px;
+  background-repeat: repeat-x;
+  background-position: 0 0;
+}
+.tape{
+  position:absolute;
+  font-family:'Noto Sans TC', sans-serif;
+  font-weight:800;
+  font-size:11px;
+  letter-spacing:3px;
+  padding:5px 16px;
+  box-shadow:0 3px 6px rgba(0,0,0,0.18);
+  white-space:nowrap;
+}
+.tape-1{ top:16px; left:-14px; transform:rotate(-9deg); background:var(--gold); color:var(--ink); }
+.tape-2{ top:12px; right:-10px; transform:rotate(7deg); background:var(--stamp-red); color:white; }
+.sticker{ position:absolute; font-size:24px; filter:drop-shadow(0 2px 3px rgba(0,0,0,0.3)); }
+.sticker-1{ top:58px; left:10%; transform:rotate(-14deg); }
+.sticker-2{ top:52px; right:11%; transform:rotate(12deg); }
+.sticker-3{ bottom:38px; left:16%; transform:rotate(10deg); font-size:19px; }
+.sticker-4{ bottom:34px; right:15%; transform:rotate(-11deg); font-size:19px; }
+.eyebrow{
+  letter-spacing:3px;
+  font-size:11px;
+  color:#CDE6F0;
+  font-weight:700;
+  margin:44px 0 2px;
+}
+.hero-title{
+  font-family:'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+  font-weight:900;
+  font-size:56px;
+  line-height:1.05;
+  margin:0;
+  letter-spacing:3px;
+}
+.hero-title .c1{ color:#FFB199; }
+.hero-title .c2{ color:var(--gold); }
+.hero-title .c3{ color:#FFFFFF; }
+.tagline{
+  margin-top:8px;
+  font-size:14px;
+  font-weight:700;
+  color:#FDEBD3;
+  letter-spacing:1px;
+}
+.dates-badge{
+  display:inline-block;
+  margin-top:12px;
+  background:rgba(255,255,255,0.16);
+  border:1px solid rgba(255,255,255,0.45);
+  padding:5px 16px;
+  border-radius:20px;
+  font-size:12.5px;
+  color:white;
+  font-weight:600;
+  letter-spacing:0.5px;
+}
+
+/* ---------- Name banner ---------- */
+.name-bar{
+  max-width:520px;
+  margin:-14px auto 0;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+  position:relative;
+  z-index:2;
+}
+.name-bar{ flex-direction:column; align-items:stretch; gap:8px; }
+.name-bar-label{ font-size:12.5px; color:#6b6455; font-weight:600; }
+.name-buttons{ display:flex; gap:8px; flex-wrap:wrap; }
+.name-btn{
+  border:1.5px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:20px;
+  padding:8px 14px;
+  font-size:13.5px;
+  font-weight:600;
+  font-family:inherit;
+  cursor:pointer;
+}
+.name-btn.active{
+  background:var(--indigo);
+  border-color:var(--indigo);
+  color:white;
+}
+.mini-name-group{ display:flex; gap:7px; flex-wrap:wrap; margin-bottom:14px; }
+.mini-name-btn{
+  border:1.5px solid var(--line);
+  background:var(--white);
+  color:var(--ink);
+  border-radius:18px;
+  padding:6px 12px;
+  font-size:12.5px;
+  font-weight:600;
+  font-family:inherit;
+  cursor:pointer;
+}
+.mini-name-btn.active{
+  background:var(--stamp-red);
+  border-color:var(--stamp-red);
+  color:white;
+}
+
+/* ---------- Stats ---------- */
+.stats{
+  max-width:520px;
+  margin:16px auto 0;
+  padding:0 4px;
+}
+.stats-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:8px;
+}
+.stats-top .label{ font-size:13px; color:#6b6455; letter-spacing:1px;}
+.stats-top .count{ font-family:'Zen Maru Gothic'; font-weight:900; font-size:20px; color:var(--indigo);}
+.progress-track{
+  height:8px;
+  border-radius:6px;
+  background:var(--paper-2);
+  overflow:hidden;
+  border:1px solid var(--line);
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--stamp-red), var(--gold));
+  transition:width .4s ease;
+}
+.leaderboard{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.lb-chip{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:5px 12px;
+  font-size:12.5px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.lb-chip .n{ font-weight:700; color:var(--indigo); }
+.lb-chip .s{ color:var(--stamp-red); font-weight:700;}
+
+/* ---------- Tabs ---------- */
+.tabs{
+  max-width:520px;
+  margin:18px auto 0;
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:4px;
+  -webkit-overflow-scrolling:touch;
+}
+.tab{
+  flex:0 0 auto;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:10px 10px 0 0;
+  padding:8px 14px 10px;
+  font-size:13px;
+  font-weight:600;
+  color:#7a725f;
+  cursor:pointer;
+  text-align:center;
+  min-width:64px;
+}
+.tab .d{ display:block; font-family:'Zen Maru Gothic'; font-weight:900; font-size:15px; color:var(--ink);}
+.tab.active{
+  background:var(--accent, var(--indigo));
+  color:white;
+  border-color:var(--accent, var(--indigo));
+}
+.tab.active .d{ color:white; }
+
+/* ---------- Task grid ---------- */
+.grid{
+  max-width:520px;
+  margin:0 auto;
+  padding:14px 10px 10px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px 14px 12px;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  cursor:pointer;
+  position:relative;
+  transition:transform .15s ease;
+}
+.card:active{ transform:scale(0.98); }
+.card-emoji{
+  font-size:22px; line-height:1;
+  width:44px; height:44px; flex:0 0 44px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background: color-mix(in srgb, var(--accent, var(--stamp-red)) 18%, white);
+  border:1.5px solid color-mix(in srgb, var(--accent, var(--stamp-red)) 35%, white);
+}
+.card-body{ flex:1; min-width:0; }
+.card-title{ font-weight:700; font-size:15px; margin:0 0 4px; color:var(--ink);}
+.card-desc{ font-size:13px; color:#6b6455; line-height:1.5; margin:0;}
+.card-people{
+  margin-top:8px;
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+.pill{
+  background:var(--paper-2);
+  border-radius:20px;
+  padding:3px 9px;
+  font-size:11px;
+  color:var(--indigo-deep);
+  font-weight:600;
+}
+.thumbs{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
+.thumbs img{
+  width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid var(--line);
+}
+.stamp-wrap{
+  width:56px;height:56px;flex:0 0 56px;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.stamp-empty{
+  width:52px;height:52px;
+  border:2.5px dashed var(--line);
+  border-radius:50%;
+}
+.stamp-mark{
+  width:56px;height:56px;
+  border-radius:50%;
+  background: linear-gradient(145deg, var(--accent, var(--stamp-red)), var(--accent, var(--stamp-red)));
+  color:white;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900; font-size:24px;
+  border:3px dashed rgba(255,255,255,0.85);
+  transform:rotate(-9deg);
+  box-shadow:0 4px 10px rgba(0,0,0,0.18);
+}
+@keyframes stampSlam{
+  0%{ transform:scale(2.4) rotate(-9deg); opacity:0;}
+  55%{ transform:scale(0.85) rotate(-9deg); opacity:1;}
+  100%{ transform:scale(1) rotate(-9deg); opacity:0.92;}
+}
+.stamp-mark.animate{ animation:stampSlam .45s ease-out; }
+
+/* ---------- Wall ---------- */
+.wall-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.wall-item{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.wall-item img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+.wall-caption{ padding:8px 10px; }
+.wall-name{ display:block; font-weight:700; font-size:12.5px; color:var(--indigo-deep);}
+.wall-task{ display:block; font-size:11px; color:#6b6455; margin-top:2px;}
+.wall-note{ display:block; font-size:11.5px; color:var(--ink); margin-top:4px; font-style:italic;}
+.wall-notes{ margin-top:6px; }
+.wall-section-title{ font-weight:700; font-size:13px; color:var(--indigo-deep); margin:20px 4px 8px;}
+
+/* ---------- Modal ---------- */
+.overlay{
+  position:fixed; inset:0; background:rgba(20,20,20,0.5);
+  display:none; align-items:flex-end; justify-content:center;
+  z-index:50;
+}
+.overlay.open{ display:flex; }
+.modal{
+  background:var(--paper);
+  width:100%; max-width:520px;
+  border-radius:18px 18px 0 0;
+  padding:20px 20px 26px;
+  max-height:88vh;
+  overflow-y:auto;
+  animation:slideUp .25s ease-out;
+}
+@keyframes slideUp{ from{ transform:translateY(30px); opacity:0;} to{ transform:translateY(0); opacity:1;} }
+.modal-emoji{ font-size:34px; }
+.modal h3{ font-family:'Zen Maru Gothic'; font-weight:900; margin:8px 0 4px; font-size:19px;}
+.modal p.desc{ font-size:13.5px; color:#6b6455; margin:0 0 16px; line-height:1.6;}
+.field-label{ font-size:12px; font-weight:700; color:var(--indigo-deep); margin-bottom:6px; display:block;}
+.modal input[type=text], .modal textarea{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  font-family:inherit;
+  font-size:14px;
+  background:var(--white);
+  margin-bottom:14px;
+  resize:vertical;
+}
+.photo-picker{
+  border:2px dashed var(--line);
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+  font-size:13px;
+  color:#6b6455;
+  margin-bottom:14px;
+  position:relative;
+  cursor:pointer;
+}
+.photo-picker input{ position:absolute; inset:0; opacity:0; cursor:pointer;}
+.photo-preview{ width:100%; max-height:180px; object-fit:cover; border-radius:10px; margin-bottom:14px; display:none;}
+.modal-actions{ display:flex; gap:10px; }
+.btn{
+  flex:1;
+  border:none;
+  border-radius:10px;
+  padding:13px;
+  font-weight:700;
+  font-size:14.5px;
+  cursor:pointer;
+  font-family:inherit;
+}
+.btn-primary{ background:var(--stamp-red); color:white; }
+.btn-secondary{ background:var(--paper-2); color:var(--ink); }
+.existing-entries{ margin-top:4px; margin-bottom:16px; }
+.entry{
+  background:var(--white); border:1px solid var(--line); border-radius:10px;
+  padding:10px; margin-bottom:8px; display:flex; gap:10px; align-items:flex-start;
+}
+.entry img{ width:48px;height:48px;object-fit:cover;border-radius:8px;}
+.entry .name{ font-weight:700; font-size:13px; color:var(--indigo-deep);}
+.entry .note{ font-size:12.5px; color:#6b6455; margin-top:2px;}
+
+/* lightbox */
+.lightbox{
+  position:fixed; inset:0; background:rgba(0,0,0,0.85);
+  display:none; align-items:center; justify-content:center; z-index:60; padding:20px;
+}
+.lightbox.open{ display:flex; }
+.lightbox img{ max-width:100%; max-height:90vh; border-radius:8px; }
+
+.footnote{
+  text-align:center;
+  font-size:11.5px;
+  color:#9a9280;
+  margin-top:24px;
+  padding:0 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tape tape-1">FUKUOKA</div>
+  <div class="tape tape-2">2026</div>
+  <div class="sticker sticker-1">✈️</div>
+  <div class="sticker sticker-2">🍜</div>
+  <div class="sticker sticker-3">⛩️</div>
+  <div class="sticker sticker-4">🗼</div>
+
+  <div class="eyebrow">FAMILY TRIP SCRAPBOOK</div>
+  <h1 class="hero-title"><span class="c1">岡</span><span class="c2">岡</span><span class="c3">好</span></h1>
+  <div class="tagline">福岡，剛剛好一起去 🎌</div>
+  <div class="dates-badge">2026.7.9 – 7.13　五人行</div>
+</div>
+
+<div class="name-bar" id="nameBar">
+  <span class="name-bar-label">你是誰？點一下記住你（之後這台手機都會記得）</span>
+  <div class="name-buttons" id="nameButtons"></div>
+</div>
+
+<div class="stats">
+  <div class="stats-top">
+    <span class="label">全家蓋章進度</span>
+    <span style="display:flex; align-items:center; gap:8px;">
+      <span class="count" id="progressCount">0 / 0</span>
+      <button id="refreshBtn" style="border:1px solid var(--line); background:var(--white); border-radius:16px; padding:4px 10px; font-size:12px; cursor:pointer; color:var(--indigo);">🔄 更新</button>
+    </span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="leaderboard" id="leaderboard"></div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="grid" id="grid"></div>
+
+<div class="footnote">輕觸每張卡片，蓋下你的旅行印記 🖋️　・　家族專屬・不公開分享</div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-emoji" id="mEmoji"></div>
+    <h3 id="mTitle"></h3>
+    <p class="desc" id="mDesc"></p>
+
+    <div class="existing-entries" id="mEntries"></div>
+
+    <span class="field-label">你的名字</span>
+    <input type="hidden" id="mName">
+    <div class="mini-name-group" id="mNameGroup"></div>
+
+    <span class="field-label">留言（選填）</span>
+    <textarea id="mNote" rows="2" placeholder="寫點什麼吧..."></textarea>
+
+    <span class="field-label">照片（選填）</span>
+    <div class="photo-picker" id="photoPicker">
+      📷 點此拍照或選擇照片
+      <input type="file" accept="image/*" capture="environment" id="mPhoto">
+    </div>
+    <img class="photo-preview" id="mPreview">
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="mCancel">取消</button>
+      <button class="btn btn-primary" id="mSubmit">蓋下這個章 🖋️</button>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg"></div>
+
+<script>
+const TASKS = [
+  {id:'d1-1', day:1, emoji:'✈️', title:'平安抵達福岡！', desc:'走出福岡機場入境大廳，全家比YA合照一張。'},
+  {id:'d1-2', day:1, emoji:'🐧', title:'尋找便利商店企鵝', desc:'找到路上的便利商店，跟企鵝招牌合照（有企鵝更加分！）。'},
+  {id:'d1-3', day:1, emoji:'🍶', title:'Ikura戰利品照', desc:'拍一張晚餐大阪燒或玉子燒的特寫，越誘人越好。'},
+
+  {id:'d2-1', day:2, emoji:'🎃', title:'南瓜大挑戰', desc:'在大濠公園找到草間彌生的《南瓜》裝置藝術，拍照留念。'},
+  {id:'d2-2', day:2, emoji:'🏯', title:'天守台放閃', desc:'在福岡城跡天守台，拍一張俯瞰福岡市景的照片。'},
+  {id:'d2-3', day:2, emoji:'🍰', title:'甜點誘惑', desc:'在Jacques法式甜點店，拍下你最想吃的那一款甜點。'},
+  {id:'d2-4', day:2, emoji:'🔤', title:'字接龍任務', desc:'在天神商圈找店家招牌，拼出自己名字的第一個字，拍照上傳！'},
+  {id:'d2-5', day:2, emoji:'🥐', title:'明太子麵包戰利品', desc:'買到Full Full Hakata的明太子麵包，開吃前先拍一張。'},
+
+  {id:'d3-1', day:3, emoji:'🐂', title:'摸牛求學業', desc:'在太宰府天滿宮摸一摸神牛雕像的頭，順便拍照存證。'},
+  {id:'d3-2', day:3, emoji:'🍡', title:'表參道點心巡禮', desc:'在表參道商店街買一樣路邊點心，拍照打卡。'},
+  {id:'d3-3', day:3, emoji:'🍣', title:'丼飯全記錄', desc:'在博多シーフードうお田，拍下你那碗丼飯的全貌。'},
+  {id:'d3-4', day:3, emoji:'🎏', title:'山笠祭典痕跡', desc:'在櫛田神社找到跟山笠祭典有關的裝飾或展示，拍照。'},
+  {id:'d3-5', day:3, emoji:'🛍️', title:'運河城制高點', desc:'在博多運河城裡找到最高的手扶梯或最壯觀的天井，拍照打卡。'},
+
+  {id:'d4-1', day:4, emoji:'⛩️', title:'鳥居定格瞬間', desc:'在今天的行程中找一個鳥居，拍一張全家經典合照。'},
+  {id:'d4-2', day:4, emoji:'💑', title:'夫婦岩見證', desc:'在櫻井二見浦夫婦岩前，全家一起入鏡拍照。'},
+  {id:'d4-3', day:4, emoji:'🗼', title:'福岡塔登頂紀念', desc:'在福岡塔上，拍一張城市全景或夕陽/夜景照。'},
+  {id:'d4-4', day:4, emoji:'🥩', title:'和牛三吃見證', desc:'拍下博多牛まぶし武藏和牛三吃的每一種吃法。'},
+
+  {id:'d5-1', day:5, emoji:'☕', title:'藥院咖啡時光', desc:'在Coffee County或Good up Coffee，拍一張咖啡拉花或悠閒角落。'},
+  {id:'d5-2', day:5, emoji:'🍙', title:'海木豆皮壽司終極任務', desc:'務必衝到渡邊通站買到だしいなり海木的豆皮壽司，拍照證明成功入手！'},
+  {id:'d5-3', day:5, emoji:'🛒', title:'機場最後戰績', desc:'在福岡機場，把這五天的戰利品攤開拍一張大合照。'},
+
+  {id:'w-1', day:0, emoji:'🈁', title:'全名字接龍終極版', desc:'集滿自己全名每一個字，五天內隨時隨地拍照收集。'},
+  {id:'w-2', day:0, emoji:'🙇', title:'友善的一句話', desc:'找機會友善地跟一位當地人說聲謝謝或你好，記錄下這個瞬間。'},
+  {id:'w-3', day:0, emoji:'🌦️', title:'天氣預言家', desc:'出發前猜猜這五天會不會下雨，最後看誰猜得最準！寫下你的預言。'},
+  {id:'w-4', day:0, emoji:'📝', title:'每日一句最愛', desc:'每天寫下一句這趟旅行中最喜歡的瞬間，五天寫滿就完成任務！'},
+];
+
+const DAY_ACCENT = { 0:'#B48CD1', 1:'#FF6B4A', 2:'#2F6F8F', 3:'#FFC93C', 4:'#5FB77E', 5:'#F2789F', wall:'#FF6B4A' };
+
+const DAYS = [
+  {id:0, label:'隨機', date:'任務'},
+  {id:1, label:'Day 1', date:'7/9'},
+  {id:2, label:'Day 2', date:'7/10'},
+  {id:3, label:'Day 3', date:'7/11'},
+  {id:4, label:'Day 4', date:'7/12'},
+  {id:5, label:'Day 5', date:'7/13'},
+  {id:'wall', label:'回憶牆', date:'📷 全部'},
+];
+
+const FAMILY = ['大丈丈','大阿姨','小阿姨','Ivy','綺綺'];
+const API_URL = 'https://script.google.com/macros/s/AKfycbzGnlA_u9pDAsDK4tQ-yuf35ewy4Ckur2JqplbjoSrSLQMGkG2ojOhWtz1o-4hSffH3VQ/exec';
+
+let state = { completions:{}, activeDay:1, myName:'', currentTaskId:null, pendingPhoto:null };
+
+async function fetchAllData(){
+  try{
+    const res = await fetch(API_URL);
+    const json = await res.json();
+    return json || {};
+  }catch(e){
+    console.error('讀取失敗', e);
+    return null;
+  }
+}
+
+async function postValue(key, value){
+  try{
+    const res = await fetch(API_URL, {
+      method:'POST',
+      body: JSON.stringify({ key, value })
+    });
+    const json = await res.json();
+    return !!(json && json.success);
+  }catch(e){
+    console.error('寫入失敗', e);
+    return false;
+  }
+}
+
+async function loadAll(){
+  TASKS.forEach(t=>{ state.completions[t.id] = []; });
+  const remote = await fetchAllData();
+  if(remote === null){
+    document.getElementById('grid').innerHTML = `<p style="text-align:center;color:#9a9280;font-size:13px;margin-top:30px;">連線不到資料庫，請檢查網路後重新整理頁面 🙏</p>`;
+  } else {
+    Object.keys(remote).forEach(k=>{
+      if(!k.startsWith('stamp:')) return;
+      const parts = k.split(':'); // ['stamp', taskId, name]
+      const taskId = parts[1];
+      const name = parts[2];
+      if(!state.completions[taskId]) return;
+      try{
+        const entry = JSON.parse(remote[k]);
+        entry.name = name;
+        state.completions[taskId].push(entry);
+      }catch(e){}
+    });
+  }
+
+  const myName = localStorage.getItem('profile-name');
+  if(myName && FAMILY.includes(myName)){
+    state.myName = myName;
+  }
+  renderNameBar();
+}
+
+function escapeHtml(s){
+  return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderNameBar(){
+  const wrap = document.getElementById('nameButtons');
+  wrap.innerHTML = FAMILY.map(n=>`
+    <button class="name-btn ${state.myName===n?'active':''}" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button>
+  `).join('');
+  [...wrap.querySelectorAll('.name-btn')].forEach(btn=>{
+    btn.onclick = ()=>{
+      const n = btn.dataset.name;
+      state.myName = n;
+      localStorage.setItem('profile-name', n);
+      renderNameBar();
+    };
+  });
+}
+
+function renderTabs(){
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = DAYS.map(d=>`
+    <div class="tab ${state.activeDay===d.id?'active':''}" data-day="${d.id}" style="--accent:${DAY_ACCENT[d.id]||'var(--indigo)'}">
+      <span class="d">${d.label}</span>${d.date}
+    </div>
+  `).join('');
+  [...tabsEl.querySelectorAll('.tab')].forEach(el=>{
+    el.onclick = ()=>{
+      const d = el.dataset.day;
+      state.activeDay = (d==='wall') ? 'wall' : parseInt(d);
+      renderTabs(); renderGrid();
+    };
+  });
+}
+
+function renderStats(){
+  const total = TASKS.length;
+  const done = TASKS.filter(t => (state.completions[t.id]||[]).length>0).length;
+  document.getElementById('progressCount').textContent = `${done} / ${total}`;
+  document.getElementById('progressFill').style.width = (total? (done/total*100):0)+'%';
+
+  const tally = {};
+  TASKS.forEach(t=>{
+    (state.completions[t.id]||[]).forEach(e=>{
+      tally[e.name] = (tally[e.name]||0)+1;
+    });
+  });
+  const sorted = Object.entries(tally).sort((a,b)=>b[1]-a[1]);
+  const lb = document.getElementById('leaderboard');
+  lb.innerHTML = sorted.length ? sorted.map(([n,c])=>`<div class="lb-chip"><span class="n">${escapeHtml(n)}</span><span class="s">${c}枚</span></div>`).join('') : `<div class="lb-chip" style="color:#9a9280;">還沒有人蓋章，快來當第一個！</div>`;
+}
+
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  if(state.activeDay === 'wall'){ renderWall(grid); return; }
+  grid.style.setProperty('--accent', DAY_ACCENT[state.activeDay] || 'var(--stamp-red)');
+  const tasks = TASKS.filter(t=>t.day===state.activeDay);
+  grid.innerHTML = tasks.map(t=>{
+    const entries = state.completions[t.id]||[];
+    const done = entries.length>0;
+    const pills = entries.map(e=>`<span class="pill">${escapeHtml(e.name)}</span>`).join('');
+    const thumbs = entries.filter(e=>e.photo).map(e=>`<img src="${e.photo}" data-full="${e.photo}">`).join('');
+    return `
+      <div class="card" data-task="${t.id}">
+        <div class="card-emoji">${t.emoji}</div>
+        <div class="card-body">
+          <p class="card-title">${t.title}</p>
+          <p class="card-desc">${t.desc}</p>
+          ${pills ? `<div class="card-people">${pills}</div>` : ''}
+          ${thumbs ? `<div class="thumbs">${thumbs}</div>` : ''}
+        </div>
+        <div class="stamp-wrap">
+          ${done ? `<div class="stamp-mark">✓</div>` : `<div class="stamp-empty"></div>`}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  [...grid.querySelectorAll('.card')].forEach(card=>{
+    card.onclick = ()=> openModal(card.dataset.task);
+  });
+  [...grid.querySelectorAll('.thumbs img')].forEach(img=>{
+    img.onclick = (ev)=>{ ev.stopPropagation(); openLightbox(img.dataset.full); };
+  });
+}
+
+function renderWall(grid){
+  let all = [];
+  TASKS.forEach(t=>{
+    (state.completions[t.id]||[]).forEach(e=>{
+      all.push(Object.assign({}, e, { taskTitle:t.title, taskEmoji:t.emoji }));
+    });
+  });
+  all.sort((a,b)=> (b.ts||0)-(a.ts||0));
+  const withPhoto = all.filter(e=>e.photo);
+  const withoutPhoto = all.filter(e=>!e.photo);
+
+  let html = '';
+  if(withPhoto.length){
+    html += `<div class="wall-grid">${withPhoto.map(e=>`
+      <div class="wall-item" data-full="${e.photo}">
+        <img src="${e.photo}">
+        <div class="wall-caption">
+          <span class="wall-name">${escapeHtml(e.name)}</span>
+          <span class="wall-task">${e.taskEmoji} ${escapeHtml(e.taskTitle)}</span>
+          ${e.note ? `<span class="wall-note">「${escapeHtml(e.note)}」</span>` : ''}
+        </div>
+      </div>
+    `).join('')}</div>`;
+  }else{
+    html += `<p style="text-align:center;color:#9a9280;font-size:13px;margin-top:30px;">還沒有人上傳照片，快去蓋第一個章吧！</p>`;
+  }
+  if(withoutPhoto.length){
+    html += `<div class="wall-notes"><p class="wall-section-title">💬 文字留言</p>${withoutPhoto.map(e=>`
+      <div class="entry">
+        <div>
+          <div class="name">${escapeHtml(e.name)} · ${e.taskEmoji} ${escapeHtml(e.taskTitle)}</div>
+          ${e.note ? `<div class="note">${escapeHtml(e.note)}</div>` : '<div class="note">（已蓋章，無留言）</div>'}
+        </div>
+      </div>
+    `).join('')}</div>`;
+  }
+  grid.innerHTML = html;
+  [...grid.querySelectorAll('.wall-item')].forEach(item=>{
+    item.onclick = ()=> openLightbox(item.dataset.full);
+  });
+}
+
+function openLightbox(src){
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+document.getElementById('lightbox').onclick = ()=> document.getElementById('lightbox').classList.remove('open');
+
+function openModal(taskId){
+  const t = TASKS.find(x=>x.id===taskId);
+  state.currentTaskId = taskId;
+  state.pendingPhoto = null;
+  document.getElementById('mEmoji').textContent = t.emoji;
+  document.getElementById('mTitle').textContent = t.title;
+  document.getElementById('mDesc').textContent = t.desc;
+  document.getElementById('mName').value = state.myName || '';
+  renderMiniNameGroup();
+  document.getElementById('mNote').value = '';
+  document.getElementById('mPreview').style.display = 'none';
+  document.getElementById('mPhoto').value = '';
+
+  const entries = state.completions[taskId]||[];
+  const entriesEl = document.getElementById('mEntries');
+  entriesEl.innerHTML = entries.length ? entries.map(e=>`
+    <div class="entry">
+      ${e.photo ? `<img src="${e.photo}">` : ''}
+      <div>
+        <div class="name">${escapeHtml(e.name)} 已蓋章 ✓</div>
+        ${e.note ? `<div class="note">${escapeHtml(e.note)}</div>` : ''}
+      </div>
+    </div>
+  `).join('') : '';
+
+  document.getElementById('overlay').classList.add('open');
+}
+
+function renderMiniNameGroup(){
+  const wrap = document.getElementById('mNameGroup');
+  const current = document.getElementById('mName').value;
+  wrap.innerHTML = FAMILY.map(n=>`
+    <button type="button" class="mini-name-btn ${current===n?'active':''}" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button>
+  `).join('');
+  [...wrap.querySelectorAll('.mini-name-btn')].forEach(btn=>{
+    btn.onclick = ()=>{
+      document.getElementById('mName').value = btn.dataset.name;
+      renderMiniNameGroup();
+    };
+  });
+}
+
+document.getElementById('mCancel').onclick = ()=>{
+  document.getElementById('overlay').classList.remove('open');
+};
+document.getElementById('overlay').addEventListener('click', (e)=>{
+  if(e.target.id==='overlay') document.getElementById('overlay').classList.remove('open');
+});
+
+document.getElementById('photoPicker').onclick = ()=> document.getElementById('mPhoto').click();
+document.getElementById('mPhoto').onchange = async (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const dataUrl = await compressImage(file);
+    if(!dataUrl){
+      alert('這張照片壓縮後還是太大，麻煩換一張再試試看（其他內容一樣可以送出）');
+      state.pendingPhoto = null;
+      document.getElementById('mPreview').style.display = 'none';
+      return;
+    }
+    state.pendingPhoto = dataUrl;
+    const prev = document.getElementById('mPreview');
+    prev.src = dataUrl;
+    prev.style.display = 'block';
+  }catch(err){
+    alert('照片讀取失敗，再試一次看看');
+  }
+};
+
+function compressImage(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const attempts = [ {w:360,q:0.6}, {w:320,q:0.5}, {w:260,q:0.4}, {w:200,q:0.35}, {w:160,q:0.3} ];
+        let i = 0;
+        const attempt = ()=>{
+          const {w,q} = attempts[i];
+          const scale = Math.min(1, w/img.width);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(img.width*scale));
+          canvas.height = Math.max(1, Math.round(img.height*scale));
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img,0,0,canvas.width,canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg', q);
+          if(dataUrl.length < 40000){
+            resolve(dataUrl);
+          } else if(i < attempts.length-1){
+            i++; attempt();
+          } else {
+            resolve(dataUrl.length < 45000 ? dataUrl : null);
+          }
+        };
+        attempt();
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById('mSubmit').onclick = async ()=>{
+  const name = document.getElementById('mName').value.trim();
+  if(!name){ alert('請先選擇你是誰唷'); return; }
+  const note = document.getElementById('mNote').value.trim();
+  const taskId = state.currentTaskId;
+
+  const btn = document.getElementById('mSubmit');
+  btn.disabled = true; btn.textContent = '蓋章中...';
+
+  const entryData = { note, photo: state.pendingPhoto || null, ts: Date.now() };
+  const ok = await postValue(`stamp:${taskId}:${name}`, JSON.stringify(entryData));
+
+  if(ok){
+    let entries = state.completions[taskId] || [];
+    entries = entries.filter(e=>e.name !== name);
+    entries.push(Object.assign({ name }, entryData));
+    state.completions[taskId] = entries;
+
+    state.myName = name;
+    localStorage.setItem('profile-name', name);
+    renderNameBar();
+    document.getElementById('overlay').classList.remove('open');
+    renderGrid();
+    renderStats();
+    const card = document.querySelector(`.card[data-task="${taskId}"] .stamp-mark`);
+    if(card){ card.classList.add('animate'); }
+  }else{
+    alert('儲存失敗，請檢查網路後再試一次');
+  }
+  btn.disabled = false; btn.textContent = '蓋下這個章 🖋️';
+};
+
+(async function init(){
+  await loadAll();
+  renderTabs();
+  renderGrid();
+  renderStats();
+
+  document.getElementById('refreshBtn').onclick = async ()=>{
+    const btn = document.getElementById('refreshBtn');
+    btn.textContent = '更新中...';
+    await loadAll();
+    renderTabs();
+    renderGrid();
+    renderStats();
+    btn.textContent = '🔄 更新';
+  };
+})();
+</script>
+</body>
+</html>
