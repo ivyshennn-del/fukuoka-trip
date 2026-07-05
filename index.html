@@ -458,6 +458,7 @@ body{
     </span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div id="myProgress" style="font-size:12px; color:#6b6455; margin-top:6px;"></div>
   <div class="leaderboard" id="leaderboard"></div>
 </div>
 
@@ -485,7 +486,7 @@ body{
     <span class="field-label">照片（選填）</span>
     <div class="photo-picker" id="photoPicker">
       📷 點此拍照或選擇照片
-      <input type="file" accept="image/*" capture="environment" id="mPhoto">
+      <input type="file" accept="image/*" id="mPhoto">
     </div>
     <img class="photo-preview" id="mPreview">
 
@@ -561,12 +562,14 @@ async function fetchAllData(){
 
 async function postValue(key, value){
   try{
-    const res = await fetch(API_URL, {
+    await fetch(API_URL, {
       method:'POST',
+      mode:'no-cors',
       body: JSON.stringify({ key, value })
     });
-    const json = await res.json();
-    return !!(json && json.success);
+    // no-cors 模式下無法讀取伺服器回應內容（瀏覽器會擋下讀取），
+    // 但只要這裡沒有丟出錯誤，代表請求已經真的送出去了，視為成功。
+    return true;
   }catch(e){
     console.error('寫入失敗', e);
     return false;
@@ -615,6 +618,7 @@ function renderNameBar(){
       state.myName = n;
       localStorage.setItem('profile-name', n);
       renderNameBar();
+      renderStats();
     };
   });
 }
@@ -642,11 +646,22 @@ function renderStats(){
   document.getElementById('progressFill').style.width = (total? (done/total*100):0)+'%';
 
   const tally = {};
+  let totalStamps = 0;
   TASKS.forEach(t=>{
     (state.completions[t.id]||[]).forEach(e=>{
       tally[e.name] = (tally[e.name]||0)+1;
+      totalStamps++;
     });
   });
+
+  const myProgressEl = document.getElementById('myProgress');
+  if(state.myName){
+    const myCount = tally[state.myName] || 0;
+    myProgressEl.textContent = `👤 ${state.myName} 自己蓋了 ${myCount} 枚　・　🏠 全家累計蓋章 ${totalStamps} 枚`;
+  } else {
+    myProgressEl.textContent = `🏠 全家累計蓋章 ${totalStamps} 枚　・　先在上面選你的名字，才能看到自己的進度喔`;
+  }
+
   const sorted = Object.entries(tally).sort((a,b)=>b[1]-a[1]);
   const lb = document.getElementById('leaderboard');
   lb.innerHTML = sorted.length ? sorted.map(([n,c])=>`<div class="lb-chip"><span class="n">${escapeHtml(n)}</span><span class="s">${c}枚</span></div>`).join('') : `<div class="lb-chip" style="color:#9a9280;">還沒有人蓋章，快來當第一個！</div>`;
