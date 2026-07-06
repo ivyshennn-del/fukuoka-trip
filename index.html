@@ -798,7 +798,6 @@ document.getElementById('overlay').addEventListener('click', (e)=>{
   if(e.target.id==='overlay') document.getElementById('overlay').classList.remove('open');
 });
 
-document.getElementById('photoPicker').onclick = ()=> document.getElementById('mPhoto').click();
 document.getElementById('mPhoto').onchange = async (e)=>{
   const file = e.target.files[0];
   if(!file) return;
